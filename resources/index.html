@@ -1,5 +1,4 @@
-<html>
-<head>
+<html><head>
   <title>Hackspace Lights</title>
   <script type="text/javascript" src="resources/jquery.min.js"></script>
   <script type="text/javascript" src="resources/shadedborder.js"></script>
@@ -51,13 +50,18 @@
   <!-- TODO: fix for opacity on IE - doesn't degrade -->
   <script type="text/javascript">
   $(document).ready(function() {
+
     var myBorder = RUZEE.ShadedBorder.create({ corner:8, shadow:16 });
     myBorder.render('my-border');
+    
+    cloneLight = $('.light:first')
     for(var i = 1; i <= 3; i++) {
-      $('<div class="light selected"><div class="aperture">&nbsp;</div><div class="lantern">&nbsp;</div></div>')
+      cloneLight
+          .clone()
           .attr('lightid', i)
-          .appendTo('#lights');
+          .insertBefore(cloneLight);
     }
+    cloneLight.remove()
     $('.light').click(function() {
       $(this).toggleClass('selected');
     });
@@ -74,20 +78,25 @@
       lights = lights.join(',');
       var url = '/' + lights + '/' + color.replace('#', '');
       
-      <!-- Use iframe instead -->
       $.ajax({
         url: url,
         type: 'GET',
         dataType: 'script'
       });
     });
+    
   });
   </script>
 </head><body>
   <div id="my-border">
-  <div id="logo"></div>
-  <div id="lights"></div>
-  <div id="colorpicker"></div>
-  <div id="debug"></div>
+    <div id="logo">&nbsp;</div>
+    <div id="lights">
+      <div class="light selected">
+        <div class="aperture">&nbsp;</div>
+        <div class="lantern">&nbsp;</div>
+      </div>
+    </div>
+    <div id="colorpicker">&nbsp;</div>
+    <div id="debug">&nbsp;</div>
   </div>
 </body></html>
