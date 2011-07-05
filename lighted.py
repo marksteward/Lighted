@@ -1,4 +1,4 @@
-import BaseHTTPServer, urlparse, serial, ConfigParser, re, time, shutil
+import BaseHTTPServer, cgi, urlparse, serial, ConfigParser, re, time, shutil
 
 config = ConfigParser.ConfigParser()
 config.read(('lighted.conf', '/etc/lighted.conf'))
@@ -27,7 +27,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def do_GET(self):
         url = urlparse.urlparse(self.path)
-        params = urlparse.parse_qs(url.query)
+        params = cgi.parse_qs(url.query)
         path = url.path
 
         bits = path.split('/')
